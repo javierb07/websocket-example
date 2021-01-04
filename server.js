@@ -17,8 +17,21 @@ wss.on('connection', (ws) => {
   ws.on('close', () => console.log('Client disconnected'));
 });
 
-setInterval(() => {
-  wss.clients.forEach((client) => {
-    client.send(new Date().toTimeString());
-  });
-}, 1000);
+var state = 0;
+
+ws.on('message', function incoming(data) {
+  switch(data) {
+    case "power":
+      ws.send(Math.random()*1000);
+      break;
+    case "on":
+      state = 1;
+      break;
+    case "off":
+      state = 0;
+      break;
+    case "toggle":
+      state = !state;
+      break;
+  }
+});

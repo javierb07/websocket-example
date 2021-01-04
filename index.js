@@ -19,22 +19,25 @@ wss.on('connection', (ws) => {
 
 var state = 0;
 
-wss.on('message', function incoming(data) {
-  switch(data) {
-    case "power":
-      wss.send(Math.random()*1000);
-      break;
-    case "on":
-      state = 1;
-      break;
-    case "off":
-      state = 0;
-      break;
-    case "toggle":
-      state = !state;
-      break;
-    case "state":
-      wss.send(state);
-      break;
-  }
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(data) {
+    console.log(data);
+    switch(data) {
+      case "power":
+        ws.send(Math.random()*1000);
+        break;
+      case "on":
+        state = 1;
+        break;
+      case "off":
+        state = 0;
+        break;
+      case "toggle":
+        state = !state;
+        break;
+      case "state":
+        ws.send(state);
+        break;
+    }
+  });
 });

@@ -24,7 +24,7 @@ wss.on('connection', function connection(ws) {
     console.log(data);
     switch(data) {
       case "power":
-        ws.send(Math.random()*1000);
+        ws.send((Math.random()*1000).toFixed(2));
         break;
       case "on":
         state = 1;

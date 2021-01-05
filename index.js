@@ -19,7 +19,7 @@ wss.on('connection', (ws) => {
 
 
 wss.on('connection', function connection(ws) {
-  var state = 0;
+  var state = false;
   ws.on('message', function incoming(data) {
     console.log(data);
     switch(data) {

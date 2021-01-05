@@ -2,6 +2,26 @@
 
 const express = require('express');
 const { Server } = require('ws');
+const mongoose = require("mongoose");
+const Data = require("./models/data");
+const seedDB = require("./seeds");
+
+
+// Set up default mongoose connection
+const host = process.env.HOST || "mongodb://localhost:27017/websocket";
+mongoose.connect(host,{ useNewUrlParser: true ,useUnifiedTopology: true}, function(err){
+    if (err){
+        console.log("Conection error to database")
+    } else {
+        console.log("Connected to database")
+    }
+});
+// Get the default connection
+var db = mongoose.connection;
+// Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+seedDB();
 
 const PORT = process.env.PORT || 3000;
 const INDEX = '/index.html';
@@ -19,24 +39,47 @@ wss.on('connection', (ws) => {
 
 
 wss.on('connection', function connection(ws) {
-  var state = false;
+  var state;
+  Data.findOne({}, function(err, data){
+     state = data.state;
+  });
   ws.on('message', function incoming(data) {
-    console.log(data);
     switch(data) {
       case "power":
-        ws.send((Math.random()*1000).toFixed(2));
+        Data.findOne({}, function(err, data){
+          state = data.state;
+        });
+        if(state){
+          ws.send((Math.random()*1000).toFixed(2));
+        } else {
+          ws.send(0);
+        }
         break;
       case "on":
-        state = 1;
+        state = true;
+        Data.updateOne({},{state: state}, function(err, res) {
+          if (err) throw err;
+          console.log("1 document updated");
+        });
         break;
       case "off":
-        state = 0;
+        state = false;
+        Data.updateOne({},{state: state}, function(err, res) {
+          if (err) throw err;
+          console.log("1 document updated");
+        });
         break;
       case "toggle":
-        state = !state;
+        Data.updateOne({},{state: !state}, function(err, res) {
+          if (err) throw err;
+          console.log("1 document updated");
+        });
         break;
       case "state":
-        ws.send(state);
+        Data.findOne({}, function(err, data){
+          state = data.state;
+          ws.send(state.toString());
+        });
         break;
     }
   });

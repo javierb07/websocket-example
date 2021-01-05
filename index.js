@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 const Data = require("./models/data");
 const seedDB = require("./seeds");
 
-
 // Set up default mongoose connection
 const host = process.env.HOST || "mongodb://localhost:27017/websocket";
 mongoose.connect(host,{ useNewUrlParser: true ,useUnifiedTopology: true}, function(err){
@@ -21,7 +20,8 @@ var db = mongoose.connection;
 // Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-seedDB();
+// Seed the database
+seedDB(); 
 
 const PORT = process.env.PORT || 3000;
 const INDEX = '/index.html';
@@ -32,11 +32,16 @@ const server = express()
 
 const wss = new Server({ server });
 
+var imu = [];
+var counter = 0;
+
 wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('close', () => console.log('Client disconnected'));
+  Data.findOne({}, function(err, data){
+    imu = data.imu;
+ }); 
 });
-
 
 wss.on('connection', function connection(ws) {
   var state;
@@ -84,3 +89,13 @@ wss.on('connection', function connection(ws) {
     }
   });
 });
+
+setInterval(() => {
+  wss.clients.forEach((client) => {
+    client.send(imu[counter].toString());
+    counter++;
+    if(counter>=imu.length){ 
+      counter = 0;
+    }
+  });
+}, 200);

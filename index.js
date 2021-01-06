@@ -86,16 +86,16 @@ wss.on('connection', function connection(ws) {
           ws.send(state.toString());
         });
         break;
+      case "imu":
+        setInterval(() => {
+          ws.send(imu[counter].toString());
+          counter++;
+          if(counter>=imu.length){ 
+            counter = 0;
+          }
+      }, 100);
+        break;
     }
   });
 });
 
-setInterval(() => {
-  wss.clients.forEach((client) => {
-    client.send(imu[counter].toString());
-    counter++;
-    if(counter>=imu.length){ 
-      counter = 0;
-    }
-  });
-}, 100);

@@ -4,5 +4,3 @@ A secure websocket server connected to a database and hosted on Heroku. It is us
 
 1) IoT Control Panel: https://github.com/javierb07/iot-control-panel
 2) IoT IMU in Unity: https://github.com/javierb07/iot-imu-unity
-
-Access on: wss://dashboard.heroku.com/apps/websocket-example-07

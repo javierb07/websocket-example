@@ -27,7 +27,7 @@ seedDB();
 const PORT = process.env.PORT || 3000;
 
 const server = express()
-  .listen(PORTWS, () => console.log(`Listening on ${PORTWS}`));
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 const wss = new Server({ server });
 

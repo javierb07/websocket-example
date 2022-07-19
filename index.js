@@ -24,22 +24,21 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // Seed the database
 seedDB();
 
-const PORT = process.env.PORT || 3000;
-const PORTMD = process.env.PORTMD || 80;
+const PORT = process.env.PORT || 80;
+const PORTWS = process.env.PORTWS || 3000;
 const INDEX = '/README.md';
 
 const app = express();
 
 // Catch all other routes to serve the client
 app.get('/*', (req, res) => {
-  console.log("geeet");
   res.sendFile(path.join(__dirname + INDEX));
 });
 
-app.listen(PORTMD, () => console.log(`Listening on ${PORTMD}`));
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 const server = express()
-  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+  .listen(PORTWS, () => console.log(`Listening on ${PORTWS}`));
 
 const wss = new Server({ server });
 

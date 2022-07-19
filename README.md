@@ -4,7 +4,7 @@ WebSocket is a computer communications protocol, providing full-duplex communica
 
 In this example I have set up a WebSocket server and client that accepts commands to get readings from an IMU (Inertial Measurement Unit). The server is not actually connected to an IMU (this is just an example application), instead it reads data that was taken from a real IMU and stored in a database (this is handled by the seeds.js script).
 
-You can use a client such as https://websocketking.com/ to access the WebSocket server or use your own WS connection and connect to wss://websocket-example-jb.herokuapp.com/ on port 3000.
+You can use a client such as https://websocketking.com/ to access the WebSocket server or use your own WS connection and connect to wss://websocket-example-jb.herokuapp.com/
 
 The WebSocket accepts the following commands:
 

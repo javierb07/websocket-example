@@ -5,6 +5,7 @@ const { Server } = require('ws');
 const mongoose = require("mongoose");
 const Data = require("./models/data");
 const seedDB = require("./seeds");
+const path = require('path');
 
 // Set up default mongoose connection
 const host = process.env.HOST || "mongodb://localhost:27017/websocket";
@@ -27,9 +28,14 @@ const PORT = process.env.PORT || 3000;
 const PORTMD = process.env.PORTMD || 80;
 const INDEX = '/README.md';
 
-express()
-  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  .listen(PORTMD, () => console.log(`Listening on ${PORTMD}`));
+const app = express();
+
+// Catch all other routes to serve the client
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname + INDEX));
+});
+
+app.listen(PORTMD, () => console.log(`Listening on ${PORTMD}`));
 
 const server = express()
   .listen(PORT, () => console.log(`Listening on ${PORT}`));

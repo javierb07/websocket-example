@@ -84,7 +84,7 @@ wss.on('connection', function connection(ws) {
         break;
       case "imu":
         if (state) {
-          var imuReadings = setInterval(() => {
+          setInterval(() => {
             ws.send(imu[counter].toString());
             counter++;
             if (counter >= imu.length) {

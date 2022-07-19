@@ -91,8 +91,6 @@ wss.on('connection', function connection(ws) {
               counter = 0;
             }
           }, 100);
-        } else {
-          ws.close();
         }
         break;
     }

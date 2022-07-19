@@ -3,8 +3,8 @@
 const express = require('express');
 const { Server } = require('ws');
 const mongoose = require("mongoose");
-const Data = require("./models/data");
-const seedDB = require("./seeds");
+const Data = require("./websocket/models/data");
+const seedDB = require("./websocket/seeds");
 
 // Set up default mongoose connection
 const host = process.env.HOST || "mongodb://localhost:27017/websocket";

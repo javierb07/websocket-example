@@ -32,6 +32,7 @@ const app = express();
 
 // Catch all other routes to serve the client
 app.get('/*', (req, res) => {
+  console.log("geeet");
   res.sendFile(path.join(__dirname + INDEX));
 });
 

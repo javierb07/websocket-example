@@ -24,11 +24,12 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 seedDB();
 
 const PORT = process.env.PORT || 3000;
+const PORTMD = process.env.PORTMD || 80;
 const INDEX = '/README.md';
 
 express()
   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  .listen(80, () => console.log(`Listening on ${80}`));
+  .listen(PORTMD, () => console.log(`Listening on ${PORTMD}`));
 
 const server = express()
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
